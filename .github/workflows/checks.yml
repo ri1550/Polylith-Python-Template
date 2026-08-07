@@ -1,0 +1,45 @@
+name: checks
+
+# Runs on every pull request and on pushes to main. The pull_request run is the
+# one that gates merging once branch protection is turned on (see CONTRIBUTING.md).
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so we can diff against the base branch
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install the workspace (gives us `poly` and the project deps)
+        run: uv sync
+
+      - name: Install check dependencies
+        run: uv pip install pyyaml
+
+      - name: Polylith check (brick boundaries and interfaces)
+        run: uv run poly check
+
+      - name: Tests
+        run: uv run pytest
+
+      - name: Type check (pyright)
+        run: uv run pyright
+
+      - name: ADR front matter lint
+        run: uv run python scripts/checks/lint.py
+
+      - name: Interface change must be recorded
+        env:
+          BASE_REF: ${{ github.base_ref || 'main' }}
+        run: |
+          git fetch origin "$BASE_REF" || true
+          uv run python scripts/checks/interface_change_check.py --mode ci

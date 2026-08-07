@@ -1,0 +1,21 @@
+[project]
+name = "workspace"
+version = "0.1.0"
+description = "A Polylith workspace"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "polylith-cli",
+    "pyright",
+    "pytest",
+    "pyyaml",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+dev-mode-dirs = ["components", "bases", "development", "."]

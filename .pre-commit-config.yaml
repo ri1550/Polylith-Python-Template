@@ -1,0 +1,72 @@
+# Pre-commit runs these checks on your machine every time you `git commit`.
+#
+# One-time setup (see CONTRIBUTING.md for the full walkthrough):
+#   1. install uv, then run:  uv sync
+#   2. install pre-commit:     uv tool install pre-commit
+#   3. turn it on:             pre-commit install
+#
+# After that it runs automatically. To run every check by hand:
+#   pre-commit run --all-files
+
+repos:
+  # Small, friendly hygiene checks maintained by the pre-commit project.
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-merge-conflict
+
+  # Our workspace checks. The scripts live in scripts/checks/.
+  - repo: local
+    hooks:
+      - id: poly-check
+        name: Polylith check (brick boundaries and interfaces)
+        entry: uv run poly check
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: lint
+        name: ADR front matter lint
+        entry: python scripts/checks/lint.py
+        language: python
+        additional_dependencies: ["pyyaml"]
+        pass_filenames: false
+        always_run: true
+
+      # Keeps the local index current. Not enforced in CI — parallel branches
+      # that both add ADRs would conflict on the generated files.
+      - id: adr-index
+        name: Refresh the ADR index
+        entry: python scripts/checks/adr_index.py
+        language: python
+        additional_dependencies: ["pyyaml"]
+        pass_filenames: false
+        files: ^docs/adr/.*\.md$
+
+      - id: pyright
+        name: Type check (pyright)
+        entry: uv run pyright
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      # Local interface check only warns; it never blocks your commit.
+      # The hard gate is the CI version (see .github/workflows/checks.yml).
+      - id: interface-change
+        name: Interface change heads-up (does not block locally)
+        entry: python scripts/checks/interface_change_check.py --mode pre-commit
+        language: python
+        verbose: true
+        files: ^(components|bases)/.*/__init__\.py$
+
+      # Always runs last so the reminder lands in context just before the commit.
+      - id: remind
+        name: Bookkeeping reminder
+        entry: python scripts/checks/remind.py
+        language: python
+        pass_filenames: false
+        always_run: true
+        verbose: true
