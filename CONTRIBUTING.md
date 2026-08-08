@@ -61,6 +61,9 @@ Before anything else, replace the placeholders left by the starter:
 - **ADR dates**: fill in the `date:` field in each ADR under `docs/adr/` with the date you are formally adopting the decision.
 - **ADR decision-makers**: replace `[you]` in each ADR's front matter with the actual names or roles.
 - **Example bricks**: delete `components/myorg/greeting` and `bases/myorg/api` (and their tests) once you have your own bricks.
+- **Inherited tags**: if you cloned or forked this repository instead of using GitHub's **Use this template** button, delete the template's own baseline tags. Otherwise `poly diff` compares your bricks against the template's baseline instead of your own.
+
+      git tag -d $(git tag -l 'stable-*')
 
 Then, make the checks a hard gate by configuring GitHub branch protection:
 1. Go to **Settings > Branches**.
