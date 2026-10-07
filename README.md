@@ -25,6 +25,7 @@ The example base has an entry point that delegates to the greeting component:
     uv run poly diff             # show which bricks changed since the last tag
     uv run poly deps             # show dependencies between bricks
     uv run poly libs             # show third-party libraries in use
+    uv run python scripts/checks/spec.py status   # what works (spec rules with a citing test) and what is queued
 
 ## Create new bricks
 
@@ -49,12 +50,13 @@ A `project` under `projects/` is the deployable unit. After creating one, build 
     projects/      deployable artifacts (no business logic here)
     development/   scratch space, REPL and notebook work
     test/          tests, mirroring the brick layout
+    docs/spec/     the behavior contract: one file per product domain, numbered rules, OPEN: questions
+    docs/queue.yaml the build queue: which rules to implement next, in order (agent-maintained)
     docs/adr/      the decision log (and a generated per-brick index)
     scripts/checks/ the automated checks that keep the process honest
 
 ## Example bricks
-`components/myorg/greeting` and `bases/myorg/api` are examples that demonstrate the interface/implementation split. Delete them once you have your own.
+`components/myorg/greeting` and `bases/myorg/api` are examples that demonstrate the interface/implementation split, and `docs/spec/greeting.md` is the matching example spec domain whose two rules the greeting tests cite. Delete all three once you have your own.
 
 ## Namespace
 The top namespace is `myorg` (see `workspace.toml`). To use your own, rename the `myorg` folders and the namespace in `workspace.toml` consistently.
-

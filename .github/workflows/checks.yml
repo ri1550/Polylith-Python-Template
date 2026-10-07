@@ -37,6 +37,9 @@ jobs:
       - name: ADR front matter lint
         run: uv run python scripts/checks/lint.py
 
+      - name: Spec and queue lint
+        run: uv run python scripts/checks/spec.py lint
+
       - name: Interface change must be recorded
         env:
           BASE_REF: ${{ github.base_ref || 'main' }}

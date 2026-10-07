@@ -15,6 +15,7 @@ Discoverability per brick is preserved by:
 - Numbers are assigned sequentially and never reused.
 - ADRs are immutable. To reverse or change a decision, write a new ADR and set the old one's status to `superseded by ADR-NNNN`.
 - `0000-adr-template.md` is the template. Copy it, do not edit it in place.
+- ADRs are started by the developer. An agent drafts one only when asked, and never offers one unprompted. A choice that is still open is an `OPEN:` line in `docs/spec/`, not a proposed ADR (see `docs/spec/README.md`, "Decisions", and ADR-0008).
 
 ## Status lifecycle
 `proposed` -> `accepted` -> (`deprecated` | `superseded by ADR-NNNN`)
@@ -25,4 +26,3 @@ Discoverability per brick is preserved by:
 
 ## Enforcement
 Where a decision can be checked by tooling, record how in the ADR's `Confirmation` section. Polylith gives you `poly check` and `poly deps` for dependency and interface rules; lean on those rather than prose where you can.
-
