@@ -1,7 +1,7 @@
 # Contributing
 This repository keeps its own context: why things are the way they are, what each part does, and how to work on it. A few small automated checks keep that context honest so the codebase stays understandable as it grows.
 
-You do not need to memorize how it all works. The checks guide you, and the AI agent does most of the paperwork (writing ADRs, tests, and notes) for you. Your job is mostly to follow the setup below once, then answer the agent's questions as you work.
+You do not need to memorize how it all works. The checks guide you, and the AI agent does most of the paperwork (tests, spec lines, queue updates, and the ADRs you ask for) for you. Your job is mostly to follow the setup below once, then answer the agent's questions as you work.
 
 If you want the full reasoning, read `AGENTS.md`. This file is just how to get set up and what to do day to day.
 
@@ -49,6 +49,8 @@ You do not need to understand the internals. Read the message, do the fix, try a
 
 - **"Interface change must be recorded" (on GitHub) failed.** Same situation, but now it blocks the merge. Do one of: add an ADR describing the change (best, the agent can draft it), mention an ADR in a commit message like `ADR-NNNN: ...`, or if the edit was not really a contract change (a comment or formatting), add `[interface-impact: none]` to a commit message. Note: `[interface-impact: none]` is self-reported — code review is the backstop against misuse.
 
+- **"Spec and queue lint" failed.** A product spec file under `docs/spec/` has the wrong headings or rule numbering, a test cites a rule that does not exist, a link under `docs/` is broken, or `docs/queue.yaml` (the agent's build queue) is malformed. The message names the file and line. Ask the agent to fix it; you do not need to read the queue yourself.
+
 - **"Type check (pyright)" failed.** A type error was found in the code. The message names the file, line, and what the type checker expected. Ask the agent to fix it, or fix it yourself and commit again.
 
 - **"Refresh the ADR index" changed files.** The check updated the generated index under `docs/adr/index/`. Nothing is wrong. Just `git add` the changed files and commit again. (This only runs locally; CI does not enforce index freshness to avoid merge conflicts on parallel branches.)
@@ -60,7 +62,7 @@ Before anything else, replace the placeholders left by the starter:
 - **Namespace**: rename `myorg` to your organisation or project name throughout `components/`, `bases/`, `test/`, and `workspace.toml`.
 - **ADR dates**: fill in the `date:` field in each ADR under `docs/adr/` with the date you are formally adopting the decision.
 - **ADR decision-makers**: replace `[you]` in each ADR's front matter with the actual names or roles.
-- **Example bricks**: delete `components/myorg/greeting` and `bases/myorg/api` (and their tests) once you have your own bricks.
+- **Example bricks**: delete `components/myorg/greeting` and `bases/myorg/api` (and their tests), and the matching example spec domain `docs/spec/greeting.md`, once you have your own bricks.
 - **Inherited tags**: if you cloned or forked this repository instead of using GitHub's **Use this template** button, delete the template's own baseline tags. Otherwise `poly diff` compares your bricks against the template's baseline instead of your own.
 
       git tag -d $(git tag -l 'stable-*')
@@ -77,4 +79,3 @@ Now no change can reach `main` without passing the checks, no matter who or what
 
 ## Why all of this
 The short version: context that lives next to the code and stays accurate is worth far more than docs that drift. The checks stop the context from drifting. The full reasoning, and the map of where every kind of context lives, is in `AGENTS.md`. The decisions behind the setup are in `docs/adr/`.
-

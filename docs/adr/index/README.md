@@ -9,8 +9,9 @@ Generated view of the decision log. Do not edit by hand; run `python scripts/che
 - [ADR-0005: Capture context in the codebase](../0005-capture-context-in-the-codebase.md) (accepted)
 - [ADR-0006: Enforce the context system with automated checks](../0006-enforce-the-process-with-automated-checks.md) (accepted)
 - [ADR-0007: Enforce code quality with automated checks](../0007-enforce-code-quality-with-automated-checks.md) (accepted)
+- [ADR-0008: Add a behavior spec and a build queue as context layers](../0008-add-a-behavior-spec-and-a-build-queue.md) (accepted)
 
 ## By brick
-- base `*`: [bases-_all_.md](bases-_all_.md) (4)
-- component `*`: [components-_all_.md](components-_all_.md) (4)
-- project `*`: [projects-_all_.md](projects-_all_.md) (5)
+- base `*`: [bases-_all_.md](bases-_all_.md) (5)
+- component `*`: [components-_all_.md](components-_all_.md) (5)
+- project `*`: [projects-_all_.md](projects-_all_.md) (6)

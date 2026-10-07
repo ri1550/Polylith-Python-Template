@@ -36,6 +36,17 @@ repos:
         pass_filenames: false
         always_run: true
 
+      # The spec (docs/spec/) and the build queue (docs/queue.yaml). Blocks on
+      # bad headings, rule numbering, dangling rule citations, broken links,
+      # or a malformed queue.
+      - id: spec-lint
+        name: Spec and queue lint
+        entry: python scripts/checks/spec.py lint
+        language: python
+        additional_dependencies: ["pyyaml"]
+        pass_filenames: false
+        always_run: true
+
       # Keeps the local index current. Not enforced in CI — parallel branches
       # that both add ADRs would conflict on the generated files.
       - id: adr-index
